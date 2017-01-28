@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<ul class="stopwatches">
+</ul>
+<form class="add-stopwatches">
+	<input type="text" name="item" placeholder="Task name" required>
+    <input type="submit" value="+ Add task">
+</form>
+</body>
+
+<script type="text/javascript">
+
+	const stopwatchesHTML = document.querySelector(".stopwatches");
+	const addStopwatches = document.querySelector(".add-stopwatches");
+	const timePlaceholder = "00:00:00";
+	let stopwatches = {};
+	let stopwatchIdIndex = 0;
+
+	function increaseTime(index) {
+		var item = stopwatches[index];
+		item.seconds++;
+
+		if (item.seconds >= 60) {
+			item.minutes++;
+			item.seconds = 0;
+			
+			if (item.minutes >= 60) {
+				item.minutes = 0;
+				item.hours++;
+			}
+		}
+		updateTimer(index);
+	}
+
+	function formatTime(time) {
+		return time ? (time > 9 ? time : "0" + time) : "00";
+	}
+
+	function updateTimer(index) {
+		const hoursText = formatTime(stopwatches[index].hours);
+		const minutesText = formatTime(stopwatches[index].minutes);
+		const secondsText = formatTime(stopwatches[index].seconds);		
+		const listItem = document.querySelector(`#stopwatch-${index}`);
+		listItem.textContent = hoursText + ":" + minutesText + ":" + secondsText;
+	}
+
+	function toggleStopwatch(e) {
+		const element = e.target;
+		
+		if (!element.matches("input")) return;
+
+		const index = element.dataset.index;
+		const item = stopwatches[index];
+
+		if(item.active) {
+			clearInterval(item.timer);
+		} else {
+			item.timer = setInterval(increaseTime, 1000, index);
+		}
+		
+		item.active = !item.active;
+	}
+
+	function createStopwatchListItem(text) {
+		let listItem = document.createElement("li");
+		let inputStopwatch = document.createElement("input");
+		let labelStopwatchTime = document.createElement("label");
+		let labelStopwatchName = document.createElement("label");
+		let index = stopwatchIdIndex;
+
+		listItem.id = `item-${index}`;
+		inputStopwatch.type = "checkbox";
+		inputStopwatch.dataset.index = index;
+		labelStopwatchTime.id = `stopwatch-${index}`;
+		labelStopwatchTime.innerHTML = timePlaceholder;
+		labelStopwatchName.innerHTML = text;
+
+		listItem.appendChild(inputStopwatch);
+		listItem.appendChild(labelStopwatchTime);
+		listItem.appendChild(labelStopwatchName);
+
+		return listItem;
+	}
+
+	function createStopwatch() {
+		return {
+			active : false,
+			hours : 0,
+			minutes: 0,
+			seconds : 0,
+			timer : null
+		};
+	}
+
+	function addStopwatch(e){
+		e.preventDefault();
+
+		const text = (this.querySelector("[name=item]")).value;
+		const listItem = createStopwatchListItem(text);
+		stopwatchesHTML.appendChild(listItem);
+		stopwatches[stopwatchIdIndex] = createStopwatch();
+		stopwatchIdIndex++;
+	}
+
+	function deleteStopwatch(elementId) {		
+		clearInterval(stopwatches[elementId].timer);
+		delete stopwatches[elementId];
+		const item = document.getElementById(`item-${elementId}`);
+		console.log(item);
+		stopwatchesHTML.removeChild(item);
+	}
+
+	stopwatchesHTML.addEventListener("click", toggleStopwatch);
+	addStopwatches.addEventListener("submit", addStopwatch);
+
+</script>
+</html>
