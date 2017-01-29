@@ -1,121 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+  <meta charset="UTF-8">
+  <title>Task Stopwatch</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<ul class="stopwatches">
-</ul>
-<form class="add-stopwatches">
-	<input type="text" name="item" placeholder="Task name" required>
-    <input type="submit" value="+ Add task">
-</form>
+  <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Task Stopwatch</span>
+    </div>
+  </header>
+  <div class="demo-ribbon"></div>
+  <main class="demo-main">
+        <div class="mdl-grid">
+          <div class="demo-content mdl-color--white mdl-shadow--4dp mdl-color-text--grey-800 mdl-cell mdl-cell--6-col mdl-cell--3-offset-desktop">
+              <form class="add-stopwatches">
+              <div class="mdl-cell mdl-cell--12-col">
+                 <div class="mdl-textfield mdl-js-textfield">
+                  <input type="text" name="item" class="mdl-textfield__input" required>
+                  <label class="mdl-textfield__label">Task name</label>
+                </div>
+                <input class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" type="submit" value="+">
+              </div>
+              </form>
+              <ul class="mdl-list stopwatches"></ul>
+          </div>
+        </div>
+      </main>
 </body>
-
-<script type="text/javascript">
-
-	const stopwatchesHTML = document.querySelector(".stopwatches");
-	const addStopwatches = document.querySelector(".add-stopwatches");
-	const timePlaceholder = "00:00:00";
-	let stopwatches = {};
-	let stopwatchIdIndex = 0;
-
-	function increaseTime(index) {
-		var item = stopwatches[index];
-		item.seconds++;
-
-		if (item.seconds >= 60) {
-			item.minutes++;
-			item.seconds = 0;
-			
-			if (item.minutes >= 60) {
-				item.minutes = 0;
-				item.hours++;
-			}
-		}
-		updateTimer(index);
-	}
-
-	function formatTime(time) {
-		return time ? (time > 9 ? time : "0" + time) : "00";
-	}
-
-	function updateTimer(index) {
-		const hoursText = formatTime(stopwatches[index].hours);
-		const minutesText = formatTime(stopwatches[index].minutes);
-		const secondsText = formatTime(stopwatches[index].seconds);		
-		const listItem = document.querySelector(`#stopwatch-${index}`);
-		listItem.textContent = hoursText + ":" + minutesText + ":" + secondsText;
-	}
-
-	function toggleStopwatch(e) {
-		const element = e.target;
-		
-		if (!element.matches("input")) return;
-
-		const index = element.dataset.index;
-		const item = stopwatches[index];
-
-		if(item.active) {
-			clearInterval(item.timer);
-		} else {
-			item.timer = setInterval(increaseTime, 1000, index);
-		}
-		
-		item.active = !item.active;
-	}
-
-	function createStopwatchListItem(text) {
-		let listItem = document.createElement("li");
-		let inputStopwatch = document.createElement("input");
-		let labelStopwatchTime = document.createElement("label");
-		let labelStopwatchName = document.createElement("label");
-		let index = stopwatchIdIndex;
-
-		listItem.id = `item-${index}`;
-		inputStopwatch.type = "checkbox";
-		inputStopwatch.dataset.index = index;
-		labelStopwatchTime.id = `stopwatch-${index}`;
-		labelStopwatchTime.innerHTML = timePlaceholder;
-		labelStopwatchName.innerHTML = text;
-
-		listItem.appendChild(inputStopwatch);
-		listItem.appendChild(labelStopwatchTime);
-		listItem.appendChild(labelStopwatchName);
-
-		return listItem;
-	}
-
-	function createStopwatch() {
-		return {
-			active : false,
-			hours : 0,
-			minutes: 0,
-			seconds : 0,
-			timer : null
-		};
-	}
-
-	function addStopwatch(e){
-		e.preventDefault();
-
-		const text = (this.querySelector("[name=item]")).value;
-		const listItem = createStopwatchListItem(text);
-		stopwatchesHTML.appendChild(listItem);
-		stopwatches[stopwatchIdIndex] = createStopwatch();
-		stopwatchIdIndex++;
-	}
-
-	function deleteStopwatch(elementId) {		
-		clearInterval(stopwatches[elementId].timer);
-		delete stopwatches[elementId];
-		const item = document.getElementById(`item-${elementId}`);
-		console.log(item);
-		stopwatchesHTML.removeChild(item);
-	}
-
-	stopwatchesHTML.addEventListener("click", toggleStopwatch);
-	addStopwatches.addEventListener("submit", addStopwatch);
-
-</script>
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
 </html>
