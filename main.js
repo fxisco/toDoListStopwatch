@@ -40,7 +40,7 @@
     const index = element.dataset.index;
     const item = stopwatches[index];
 
-    if(item.active) {
+    if (item.active) {
       clearInterval(item.timer);
       element.classList.remove("mdl-button--colored");
       element.classList.add("mdl-button--accent");
@@ -55,31 +55,69 @@
 
   function createStopwatchListItem(text) {
     let listItem = document.createElement("li");
-    let buttonStopwatchTime = document.createElement("button");
-    let labelStopwatchName = document.createElement("label");
-    let buttonRemoveStopwatch = document.createElement("button");
-    let icon = document.createElement("i");
-    let index = stopwatchIdIndex;
+    let labelStopwatchName = createStopwatchNameLabel(text);
+    let buttonStopwatchTime = createStopwatchButton(stopwatchIdIndex);
+    let buttonRemoveStopwatch = createRemoveButton(stopwatchIdIndex);
+    let buttonResetStopwatch = createRefreshButton(stopwatchIdIndex);
 
-    listItem.id = `item-${index}`;
+    listItem.id = `item-${stopwatchIdIndex}`;
     listItem.setAttribute("class", "mdl-list__item");
+
+    listItem.appendChild(labelStopwatchName);
+    listItem.appendChild(buttonStopwatchTime);
+    listItem.appendChild(buttonResetStopwatch);
+    listItem.appendChild(buttonRemoveStopwatch);
+
+    return listItem;
+  }
+
+  function createStopwatchNameLabel(text) {
+    let labelStopwatchName = document.createElement("label");
+    labelStopwatchName.innerHTML = text;
+    labelStopwatchName.setAttribute("class", "stopwatch-name mdl-cell mdl-cell--8-col");
+
+    return labelStopwatchName;
+  }
+
+  function createStopwatchButton(index) {
+    let buttonStopwatchTime = document.createElement("button");
     buttonStopwatchTime.dataset.index = index;
     buttonStopwatchTime.id = `stopwatch-${index}`;
     buttonStopwatchTime.setAttribute("class", "time time-inactive mdl-button mdl-js-button mdl-button--raised mdl-button--accent");
     buttonStopwatchTime.innerHTML = timePlaceholder;
-    labelStopwatchName.innerHTML = text;
-    labelStopwatchName.setAttribute("class", "stopwatch-name mdl-cell mdl-cell--9-col");
+
+    return buttonStopwatchTime;
+  }
+
+  function createIcon(iconName) {
+    let icon = document.createElement("i");
     icon.setAttribute("class", "material-icons");
-    icon.innerHTML = "remove";
-    buttonRemoveStopwatch.setAttribute("class", "remove-stopwatch mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab");
+    icon.innerHTML = iconName;
+
+    return icon;
+  }
+
+  function createRefreshButton(index) {
+    let buttonResetStopwatch = document.createElement("button");
+    let iconRefresh = createIcon("refresh");
+    buttonResetStopwatch.setAttribute("class", "stopwatch-option mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab");
+    buttonResetStopwatch.addEventListener("click", function(){
+      resetStopwatch(index)
+      this.blur();
+    });
+    buttonResetStopwatch.appendChild(iconRefresh);
+
+    return buttonResetStopwatch;
+  }
+
+  function createRemoveButton(index) {
+    let buttonRemoveStopwatch = document.createElement("button");
+    let iconRemove = createIcon("remove");
+    buttonRemoveStopwatch.setAttribute("class", "stopwatch-option mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab");
     buttonRemoveStopwatch.addEventListener("click", function(){deleteStopwatch(index)});
+    buttonRemoveStopwatch.appendChild(iconRemove);
 
-    buttonRemoveStopwatch.appendChild(icon);
-    listItem.appendChild(labelStopwatchName);
-    listItem.appendChild(buttonStopwatchTime);
-    listItem.appendChild(buttonRemoveStopwatch);
-
-    return listItem;
+    return buttonRemoveStopwatch;
   }
 
   function createStopwatch() {
@@ -94,13 +132,14 @@
 
   function addStopwatch(e){
     e.preventDefault();
-
-    const text = (this.querySelector("[name=item]")).value;
+    const taskInput = this.querySelector("[name=item]");
+    const text = taskInput.value;
     const listItem = createStopwatchListItem(text);
     stopwatchesHTML.appendChild(listItem);
     stopwatches[stopwatchIdIndex] = createStopwatch();
     stopwatchIdIndex++;
     this.reset();
+    taskInput.parentElement.classList.remove("is-focus", "is-dirty");
   }
 
   function deleteStopwatch(elementId) {
@@ -108,6 +147,17 @@
     delete stopwatches[elementId];
     const item = document.getElementById(`item-${elementId}`);
     stopwatchesHTML.removeChild(item);
+  }
+
+  function resetStopwatch(elementId) {
+    clearInterval(stopwatches[elementId].timer);
+    stopwatches[elementId].seconds = 0;
+    stopwatches[elementId].minutes = 0;
+    stopwatches[elementId].hours = 0;
+    let stopwatchButton = document.getElementById(`stopwatch-${elementId}`);
+    stopwatchButton.innerHTML = timePlaceholder;
+    stopwatchButton.classList.remove("mdl-button--colored");
+    stopwatchButton.classList.add("mdl-button--accent");
   }
 
   stopwatchesHTML.addEventListener("click", toggleStopwatch);

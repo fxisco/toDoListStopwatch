@@ -1,61 +1,61 @@
 .demo-ribbon {
-  width: 100%;
-  height: 40vh;
-  background-color: #3F51B5;
-  -webkit-flex-shrink: 0;
-      -ms-flex-negative: 0;
-          flex-shrink: 0;
+    width: 100%;
+    height: 40vh;
+    background-color: #3F51B5;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
 }
 
 .demo-main {
-  margin-top: -35vh;
-  -webkit-flex-shrink: 0;
-      -ms-flex-negative: 0;
-          flex-shrink: 0;
+    margin-top: -35vh;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
 }
 
 .demo-content {
-  border-radius: 2px;
-  padding: 80px 56px;
-  margin-bottom: 80px;
+    border-radius: 2px;
+    padding: 80px 56px;
+    margin-bottom: 80px;
 }
 
-.mdl-textfield{
-    width:92%;
+.mdl-textfield {
+    width: 92%;
 }
 
 .mdl-textfield__input {
-  font-size: 30px;
+    font-size: 30px;
 }
 
 .mdl-textfield__label {
- font-size: 30px;
- line-height: 45px;
+    font-size: 30px;
+    line-height: 45px;
 }
 
 .stopwatches input {
-  width: 100%;
-  display: none;
+    width: 100%;
+    display: none;
 }
 
 .stopwatches input + label:before {
-  content: '⬜️';
-  margin-right: 10px;
+    content: '⬜️';
+    margin-right: 10px;
 }
 
 .stopwatches input:checked + label:before {
-  content: '🌮';
+    content: '🌮';
 }
 
 .time.mdl-button {
-  font-size: 30px;
+    font-size: 30px;
 }
 
 .stopwatch-name {
-  text-align: center;
-  overflow-wrap: break-word;
+    text-align: center;
+    overflow-wrap: break-word;
 }
 
-.remove-stopwatch {
-  margin-left: 30px;
+.stopwatch-option {
+    margin-left: 20px;
 }
