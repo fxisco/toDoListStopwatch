@@ -173,12 +173,14 @@ function deleteStopwatch(elementId) {
 }
 
 function resetStopwatch(elementId) {
-  clearInterval(stopwatches[elementId].timer);
-  stopwatches[elementId].seconds = 0;
-  stopwatches[elementId].minutes = 0;
-  stopwatches[elementId].hours = 0;
+  var stopwatch = stopwatches[elementId];
+  clearInterval(stopwatch.timer);
+  stopwatch.seconds = 0;
+  stopwatch.minutes = 0;
+  stopwatch.hours = 0;
   let stopwatchButton = document.getElementById(`stopwatch-${elementId}`);
-  stopwatchButton.innerHTML = timePlaceholder;
+  const time = getTime(stopwatch);
+  stopwatchButton.innerHTML = time.hours + ":" + time.minutes + ":" + time.seconds;
   stopwatchButton.classList.remove("mdl-button--colored");
   stopwatchButton.classList.add("mdl-button--accent");
 }
