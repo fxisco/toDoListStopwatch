@@ -63,7 +63,7 @@ function toggleStopwatch(e) {
 
 function createStopwatchListItem(stopwatch, index) {
   let listItem = document.createElement("li");
-  let labelStopwatchName = createStopwatchNameLabel(stopwatch.text);
+  let labelStopwatchName = createStopwatchName(stopwatch, index);
   let buttonStopwatchTime = createStopwatchButton(stopwatch, index);
   let buttonRemoveStopwatch = createRemoveButton(index);
   let buttonResetStopwatch = createRefreshButton(index);
@@ -79,10 +79,18 @@ function createStopwatchListItem(stopwatch, index) {
   return listItem;
 }
 
-function createStopwatchNameLabel(text) {
-  let labelStopwatchName = document.createElement("label");
-  labelStopwatchName.innerHTML = text;
-  labelStopwatchName.setAttribute("class", "stopwatch-name mdl-cell mdl-cell--8-col");
+function createStopwatchName(stopwatch, index) {
+  let labelStopwatchName = document.createElement("div");
+  labelStopwatchName.setAttribute("contentEditable", true);
+  labelStopwatchName.innerHTML = stopwatch.text;
+  labelStopwatchName.setAttribute("class", "stopwatch-name mdl-cell mdl-cell--7-col");
+  labelStopwatchName.addEventListener("blur", function(){
+    if (this.innerHTML !== '') {
+      stopwatches[index].text = this.innerHTML;
+    } else {
+      this.innerHTML = stopwatches[index].text;
+    }
+  });
 
   return labelStopwatchName;
 }
