@@ -2,7 +2,6 @@ const stopwatchesHTML = document.querySelector(".stopwatches");
 const addStopwatches = document.querySelector(".add-stopwatches");
 const storedStopwatches = JSON.parse(localStorage.getItem("stopwatches"));
 let stopwatches = storedStopwatches || {};
-let stopwatchIdIndex = storedStopwatches ? Object.keys(storedStopwatches).length : 0;
 let saveInterval;
 
 function increaseTime(index) {
@@ -152,10 +151,10 @@ function addStopwatch(e){
   e.preventDefault();
   const taskInput = this.querySelector("[name=item]");
   const text = taskInput.value;
-  stopwatches[stopwatchIdIndex] = createStopwatch(text);
-  const listItem = createStopwatchListItem(stopwatches[stopwatchIdIndex], stopwatchIdIndex);
+  const id = createId();
+  stopwatches[id] = createStopwatch(text);
+  const listItem = createStopwatchListItem(stopwatches[id], id);
   stopwatchesHTML.appendChild(listItem);
-  stopwatchIdIndex++;
   this.reset();
   taskInput.parentElement.classList.remove("is-focus", "is-dirty");
   setAutoSave();
@@ -178,6 +177,19 @@ function deleteStopwatch(elementId) {
     clearInterval(saveInterval);
   }
 
+}
+
+function createId() {
+  var currentdate = new Date();
+  var idBasedOnDateTime = currentdate.getDay() + "" +
+                          currentdate.getMonth() + "" +
+                          currentdate.getFullYear() + "" +
+                          currentdate.getHours() + "" +
+                          currentdate.getMinutes() + "" +
+                          currentdate.getSeconds() + "" +
+                          currentdate.getMilliseconds();
+
+  return idBasedOnDateTime;
 }
 
 function resetStopwatch(elementId) {
