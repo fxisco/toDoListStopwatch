@@ -1,0 +1,15 @@
+.stopwatch-name {
+    text-align: center;
+    overflow-wrap: break-word;
+    border: none;
+    resize: none;
+    outline: none;
+    overflow: visible;
+    font-family: "Helvetica","Arial",sans-serif;
+    font-size: 25px;
+}
+
+.li-stopwatch {
+    display: flex;
+    align-items: center;
+}

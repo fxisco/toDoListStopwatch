@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Task Stopwatches</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+ <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">Task Stopwatches</a>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="section">
+      <div class="row">
+        <form class="col s8 offset-s2">
+          <div class="input-field col s10">
+            <input id="task-name" type="text" class="validate" required="required">
+            <label for="task-name">Task name</label>
+          </div>
+          <div class="input-field col s2">
+            <button class="btn-floating btn-large waves-effect waves-light light-blue lighten-1" type="submit">
+              <i class="material-icons">add</i>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+      <ul class="col s9 offset-s1 stopwatches">
+        <li class="li-stopwatch">
+
+          <div class="col s8">
+            <div contenteditable="true" class="stopwatch-name center">asdfasd</div>
+          </div>
+          <div class="col s4">
+            <button class="time time-inactive btn-large green accent-3">00:00:00</button>
+            <button class="stopwatch-option btn-floating waves-effect waves-light blue-grey lighten-5">
+              <i class="material-icons md-dark">play_arrow</i>
+            </button>
+            <button class="stopwatch-option btn-floating waves-effect waves-light blue-grey lighten-5">
+              <i class="material-icons">refresh</i>
+            </button>
+            <button class="stopwatch-option btn-floating waves-effect waves-light blue-grey lighten-5">
+              <i class="material-icons">remove</i>
+            </button>
+          </div>
+
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+<script type="text/javascript" src="main.js"></script>
+</html>
